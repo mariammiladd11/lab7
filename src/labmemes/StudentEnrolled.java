@@ -15,7 +15,7 @@ import org.json.JSONObject;
  *
  * @author Linae
  */
-public class studentDashboard extends javax.swing.JFrame {
+public class StudentEnrolled extends javax.swing.JFrame {
 
     /**
      * Creates new form studentDashboard
@@ -23,13 +23,13 @@ public class studentDashboard extends javax.swing.JFrame {
     private String studentId; // logged-in student id
     private DefaultTableModel lessonTableModel;
     
-    public studentDashboard(String studentId) {
+    public StudentEnrolled(String studentId) {
         this.studentId = studentId;
         initComponents();
         loadCourses();
     }
 
-    private studentDashboard() {
+    private StudentEnrolled() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     /**
@@ -46,8 +46,7 @@ public class studentDashboard extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        enrollBtn = new javax.swing.JButton();
-        viewEnrolledBtn = new javax.swing.JButton();
+        completeBtn = new javax.swing.JButton();
         logoutBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -74,17 +73,10 @@ public class studentDashboard extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable1);
 
-        enrollBtn.setText("Enroll");
-        enrollBtn.addActionListener(new java.awt.event.ActionListener() {
+        completeBtn.setText("Mark Completed");
+        completeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enrollBtnActionPerformed(evt);
-            }
-        });
-
-        viewEnrolledBtn.setText("View Enrolled");
-        viewEnrolledBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                viewEnrolledBtnActionPerformed(evt);
+                completeBtnActionPerformed(evt);
             }
         });
 
@@ -100,19 +92,17 @@ public class studentDashboard extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(enrollBtn)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(27, 27, 27)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(42, 42, 42)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(67, 67, 67)
-                        .addComponent(viewEnrolledBtn)
+                        .addComponent(completeBtn)
                         .addGap(60, 60, 60)
                         .addComponent(logoutBtn))
                     .addGroup(layout.createSequentialGroup()
@@ -132,8 +122,7 @@ public class studentDashboard extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(enrollBtn)
-                    .addComponent(viewEnrolledBtn)
+                    .addComponent(completeBtn)
                     .addComponent(logoutBtn))
                 .addGap(36, 36, 36))
         );
@@ -174,34 +163,29 @@ public class studentDashboard extends javax.swing.JFrame {
             lessonTableModel.addRow(new Object[]{lessonId, title, completed});
         }
     }
-    private void enrollBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enrollBtnActionPerformed
+    private void completeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completeBtnActionPerformed
         // TODO add your handling code here:
+        StudentService ss = new StudentService();
         String selected = coursesList.getSelectedValue();
         if (selected == null) return;
-
         String courseId = selected.split(" - ")[0];
-        boolean success = new StudentService().enrollCourse(studentId, courseId);
-        if (success) {
-            CourseManagement.enrollStudent(studentId, courseId);
-            JOptionPane.showMessageDialog(this, "Enrolled successfully!");
-            loadLessons(); // refresh lessons
-        } else {
-            JOptionPane.showMessageDialog(this, "Already enrolled or error!");
+
+        for (int i = 0; i < lessonTableModel.getRowCount(); i++) {
+            boolean completed = (Boolean) lessonTableModel.getValueAt(i, 2);
+            String lessonId = (String) lessonTableModel.getValueAt(i, 0);
+            if (completed) {
+                ss.completeLesson(studentId, courseId, lessonId);
+            }
         }
-    }//GEN-LAST:event_enrollBtnActionPerformed
+        JOptionPane.showMessageDialog(this, "Progress updated!");
+        loadLessons();
+    }//GEN-LAST:event_completeBtnActionPerformed
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
         // TODO add your handling code here:
         this.dispose(); // close dashboard
         new LoginFrame().setVisible(true); // show login
     }//GEN-LAST:event_logoutBtnActionPerformed
-
-    private void viewEnrolledBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewEnrolledBtnActionPerformed
-        // TODO add your handling code here:
-      StudentEnrolled enrolledFrame = new StudentEnrolled(studentId); 
-    enrolledFrame.setVisible(true);
-    this.dispose(); 
-    }//GEN-LAST:event_viewEnrolledBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -220,32 +204,32 @@ public class studentDashboard extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(studentDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentEnrolled.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(studentDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentEnrolled.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(studentDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentEnrolled.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(studentDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentEnrolled.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new studentDashboard().setVisible(true);
+                new StudentEnrolled().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton completeBtn;
     private javax.swing.JList<String> coursesList;
-    private javax.swing.JButton enrollBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton logoutBtn;
-    private javax.swing.JButton viewEnrolledBtn;
     // End of variables declaration//GEN-END:variables
 }
