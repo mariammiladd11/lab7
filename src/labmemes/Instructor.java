@@ -11,6 +11,8 @@ package labmemes;
 import java.util.ArrayList;
 
 public class Instructor extends User {
+           
+    
     private ArrayList<String> createdCourses = new ArrayList<>();
 
     public Instructor(String userId, String username, String email, String passwordHash) {
@@ -18,4 +20,17 @@ public class Instructor extends User {
     }
 
     public ArrayList<String> getCreatedCourses() { return createdCourses; }
+    public void addCourse(String courseId) {
+        if (!createdCourses.contains(courseId)) {
+            createdCourses.add(courseId);
+        }
+    }
+
+    public void removeCourse(String courseId) {
+        createdCourses.remove(courseId);
+    }
+    
+    public boolean hasCourse(String courseId) {
+        return createdCourses.contains(courseId);
+    }
 }
