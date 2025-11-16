@@ -4,13 +4,6 @@
  */
 package labmemes;
 
-import java.util.List;
-import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 /**
  *
  * @author Linae
@@ -20,18 +13,10 @@ public class studentDashboard extends javax.swing.JFrame {
     /**
      * Creates new form studentDashboard
      */
-    private String studentId; // logged-in student id
-    private DefaultTableModel lessonTableModel;
-    
-    public studentDashboard(String studentId) {
-        this.studentId = studentId;
+    public studentDashboard() {
         initComponents();
-        loadCourses();
     }
 
-    private studentDashboard() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,167 +26,21 @@ public class studentDashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        coursesList = new javax.swing.JList<>();
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        enrollBtn = new javax.swing.JButton();
-        viewEnrolledBtn = new javax.swing.JButton();
-        logoutBtn = new javax.swing.JButton();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        coursesList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(coursesList);
-
-        jLabel1.setText("Courses");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Lesson ID", "Title", "Complete"
-            }
-        ));
-        jScrollPane2.setViewportView(jTable1);
-
-        enrollBtn.setText("Enroll");
-        enrollBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enrollBtnActionPerformed(evt);
-            }
-        });
-
-        viewEnrolledBtn.setText("View Enrolled");
-        viewEnrolledBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                viewEnrolledBtnActionPerformed(evt);
-            }
-        });
-
-        logoutBtn.setText("Logout");
-        logoutBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logoutBtnActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(enrollBtn)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(27, 27, 27)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(42, 42, 42)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(67, 67, 67)
-                        .addComponent(viewEnrolledBtn)
-                        .addGap(60, 60, 60)
-                        .addComponent(logoutBtn))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(18, Short.MAX_VALUE))
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(enrollBtn)
-                    .addComponent(viewEnrolledBtn)
-                    .addComponent(logoutBtn))
-                .addGap(36, 36, 36))
+            .addGap(0, 300, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-      private void loadCourses() {
-        JSONArray courses = CourseManagement.browseCourses();
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (int i = 0; i < courses.length(); i++) {
-            JSONObject c = courses.getJSONObject(i);
-            listModel.addElement(c.getString("courseId") + " - " + c.getString("title"));
-        }
-        coursesList.setModel(listModel);
-
-        // Load lessons when a course is selected
-        coursesList.addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                loadLessons();
-            }
-        });
-    }
-      private void loadLessons() {
-        lessonTableModel.setRowCount(0);
-        String selected = coursesList.getSelectedValue();
-        if (selected == null) return;
-
-        String courseId = selected.split(" - ")[0];
-        JSONArray lessons = CourseManagement.viewLessons(courseId);
-        StudentService ss = new StudentService();
-        List<String> completedLessons = ss.getCompletedLessons(studentId, courseId);
-
-        for (int i = 0; i < lessons.length(); i++) {
-            JSONObject lesson = lessons.getJSONObject(i);
-            String lessonId = lesson.getString("lessonId");
-            String title = lesson.getString("title");
-            boolean completed = completedLessons.contains(lessonId);
-            lessonTableModel.addRow(new Object[]{lessonId, title, completed});
-        }
-    }
-    private void enrollBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enrollBtnActionPerformed
-        // TODO add your handling code here:
-        String selected = coursesList.getSelectedValue();
-        if (selected == null) return;
-
-        String courseId = selected.split(" - ")[0];
-        boolean success = new StudentService().enrollCourse(studentId, courseId);
-        if (success) {
-            CourseManagement.enrollStudent(studentId, courseId);
-            JOptionPane.showMessageDialog(this, "Enrolled successfully!");
-            loadLessons(); // refresh lessons
-        } else {
-            JOptionPane.showMessageDialog(this, "Already enrolled or error!");
-        }
-    }//GEN-LAST:event_enrollBtnActionPerformed
-
-    private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
-        // TODO add your handling code here:
-        this.dispose(); // close dashboard
-        new LoginFrame().setVisible(true); // show login
-    }//GEN-LAST:event_logoutBtnActionPerformed
-
-    private void viewEnrolledBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewEnrolledBtnActionPerformed
-        // TODO add your handling code here:
-      StudentEnrolled enrolledFrame = new StudentEnrolled(studentId); 
-    enrolledFrame.setVisible(true);
-    this.dispose(); 
-    }//GEN-LAST:event_viewEnrolledBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -239,13 +78,5 @@ public class studentDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<String> coursesList;
-    private javax.swing.JButton enrollBtn;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JButton logoutBtn;
-    private javax.swing.JButton viewEnrolledBtn;
     // End of variables declaration//GEN-END:variables
 }
