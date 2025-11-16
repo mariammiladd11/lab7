@@ -1,5 +1,10 @@
 package labmemes;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -10,6 +15,38 @@ package labmemes;
  * @author sarahkhaled
  */
 public class InstructorDashboard extends javax.swing.JFrame {
+private Instructor instructor;
+private boolean showingLessons = false; // to track what’s displayed
+private String currentCourseId = null;  // current course being viewed
+private javax.swing.JButton backToCoursesButton; // back button
+
+
+public InstructorDashboard(Instructor instructor) {
+    this.instructor = instructor; 
+    initComponents();
+    loadCourses();
+
+    backToCoursesButton = new javax.swing.JButton("Back to Courses");
+    backToCoursesButton.setBounds(10, 330, 150, 30); // adjust as needed
+    backToCoursesButton.setVisible(false);
+    backToCoursesButton.addActionListener(evt -> {
+        loadCourses();
+        showingLessons = false;
+        currentCourseId = null;
+
+        // Show course buttons
+        addCourseButton.setVisible(true);
+        editCourseButton.setVisible(true);
+        deleteCourseButton.setVisible(true);
+        manageLessonsButton.setVisible(true);
+        viewEnrolledStudents.setVisible(true);
+        backToCoursesButton.setVisible(false);
+
+        DefaultTableModel model = (DefaultTableModel) courseTable.getModel();
+        model.setColumnIdentifiers(new String[]{"Course Title", "Course ID", "Description"});
+    });
+    getContentPane().add(backToCoursesButton);
+}
 
     /**
      * Creates new form InstructorDashboard
@@ -29,6 +66,11 @@ public class InstructorDashboard extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         courseTable = new javax.swing.JTable();
+        addCourseButton = new javax.swing.JButton();
+        editCourseButton = new javax.swing.JButton();
+        deleteCourseButton = new javax.swing.JButton();
+        manageLessonsButton = new javax.swing.JButton();
+        viewEnrolledStudents = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,23 +95,220 @@ public class InstructorDashboard extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(courseTable);
 
+        addCourseButton.setText("Create Course");
+        addCourseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addCourseButtonActionPerformed(evt);
+            }
+        });
+
+        editCourseButton.setText("Edit Course");
+        editCourseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editCourseButtonActionPerformed(evt);
+            }
+        });
+
+        deleteCourseButton.setText("Delete Course");
+        deleteCourseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteCourseButtonActionPerformed(evt);
+            }
+        });
+
+        manageLessonsButton.setText("Manage Lessons");
+        manageLessonsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manageLessonsButtonActionPerformed(evt);
+            }
+        });
+
+        viewEnrolledStudents.setText("View Enrolled Students");
+        viewEnrolledStudents.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewEnrolledStudentsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 25, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(manageLessonsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deleteCourseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(editCourseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(addCourseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(viewEnrolledStudents, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 25, Short.MAX_VALUE))
+                .addComponent(addCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(editCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(deleteCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(manageLessonsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(viewEnrolledStudents, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 86, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+   private void loadCourses() {
+    DefaultTableModel model = (DefaultTableModel) courseTable.getModel();
+    model.setRowCount(0); // clear previous data
+    for (String courseId :  instructor.getCreatedCourses()) {
+        JSONObject course = JsonDatabaseManager.getCourseById(courseId);
+        model.addRow(new Object[]{
+            course.getString("courseId"),
+            course.getString("title"),
+            course.getString("description")
+        });
+    }
+}
+   private String getSelectedCourseId() {
+    int row = courseTable.getSelectedRow(); // -1 if nothing selected
+    if (row == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a course first!");
+        return null;
+    }
+    return courseTable.getValueAt(row, 0).toString(); // returns courseId
+}
+
+
+    private void addCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCourseButtonActionPerformed
+        // TODO add your handling code here:
+            String title = JOptionPane.showInputDialog(this, "Enter course title:");
+    if (title == null || title.isEmpty()) {
+        return;
+    }
+    String description = JOptionPane.showInputDialog(this, "Enter course description:");
+    if (description == null || description.isEmpty()) {
+        return; 
+    }
+
+    String courseId = InstructorManagement.createCourse(instructor.getUserId(), title, description);
+
+    instructor.getCreatedCourses().add(courseId);
+
+    loadCourses();
+
+    JOptionPane.showMessageDialog(this, "Course created successfully!");
+    }//GEN-LAST:event_addCourseButtonActionPerformed
+
+    private void manageLessonsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageLessonsButtonActionPerformed
+        // TODO add your handling code here:
+        String courseId = getSelectedCourseId();
+    if (courseId == null) return;
+
+    currentCourseId = courseId;
+    showingLessons = true;
+
+    addCourseButton.setVisible(false);
+    editCourseButton.setVisible(false);
+    deleteCourseButton.setVisible(false);
+    manageLessonsButton.setVisible(false);
+    viewEnrolledStudents.setVisible(false);
+    backToCoursesButton.setVisible(true);
+
+    DefaultTableModel model = (DefaultTableModel) courseTable.getModel();
+    model.setRowCount(0);
+    model.setColumnIdentifiers(new String[]{"Lesson Title", "Lesson ID", "Content"});
+
+    JSONArray lessons = JsonDatabaseManager.getLessonsByCourseId(courseId);
+    for (int i = 0; i < lessons.length(); i++) {
+        JSONObject lesson = lessons.getJSONObject(i);
+        model.addRow(new Object[]{
+            lesson.getString("title"),
+            lesson.getString("lessonId"),
+            lesson.getString("content")
+        });
+    }
+    }//GEN-LAST:event_manageLessonsButtonActionPerformed
+
+    private void viewEnrolledStudentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewEnrolledStudentsActionPerformed
+        // TODO add your handling code here:
+         String courseId = getSelectedCourseId();
+    if (courseId == null) return;
+
+    JSONObject course = JsonDatabaseManager.getCourseById(courseId);
+    if (course == null) {
+        JOptionPane.showMessageDialog(this, "Course not found!");
+        return;
+    }
+    JSONArray enrolledStudents = course.optJSONArray("enrolledStudents");
+    if (enrolledStudents == null || enrolledStudents.length() == 0) {
+        JOptionPane.showMessageDialog(this, "No students enrolled in this course.");
+        return;
+    }
+    DefaultTableModel model = (DefaultTableModel) courseTable.getModel();
+    model.setRowCount(0);
+    model.setColumnIdentifiers(new String[]{"Student Name", "Email", "User ID"});
+
+    for (int i = 0; i < enrolledStudents.length(); i++) {
+        String studentId = enrolledStudents.getString(i);
+        JSONObject student = JsonDatabaseManager.findUserByEmail(studentId); 
+        if (student != null) {
+            model.addRow(new Object[]{
+                student.getString("name"),
+                student.getString("email"),
+                student.getString("userId")
+            });
+        }
+    }
+
+    // Hide course buttons and show back button
+    addCourseButton.setVisible(false);
+    editCourseButton.setVisible(false);
+    deleteCourseButton.setVisible(false);
+    manageLessonsButton.setVisible(false);
+    viewEnrolledStudents.setVisible(false);
+    backToCoursesButton.setVisible(true);
+    }//GEN-LAST:event_viewEnrolledStudentsActionPerformed
+
+    private void editCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCourseButtonActionPerformed
+        // TODO add your handling code here:
+        String courseId = getSelectedCourseId(); 
+    JSONObject course = JsonDatabaseManager.getCourseById(courseId);
+    if (course == null) {
+        JOptionPane.showMessageDialog(this, "Course not found!");
+        return;
+    }
+
+    String newTitle = JOptionPane.showInputDialog(this, "Enter new course title:", course.getString("title"));
+    if (newTitle == null) 
+        return; 
+
+    String newDescription = JOptionPane.showInputDialog(this, "Enter new course description:", course.getString("description"));
+    if (newDescription == null)
+        return; 
+    
+    InstructorManagement.editCourse(courseId, newTitle, newDescription);
+    loadCourses();
+    }//GEN-LAST:event_editCourseButtonActionPerformed
+
+    private void deleteCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCourseButtonActionPerformed
+        // TODO add your handling code here:
+        String courseId = getSelectedCourseId(); 
+        if (courseId == null) return;
+    int confirm = JOptionPane.showConfirmDialog(this,
+        "Are you sure you want to delete this course?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+
+    if (confirm == JOptionPane.YES_OPTION) {
+        InstructorManagement.deleteCourse(instructor.getUserId(), courseId);
+        loadCourses();
+        JOptionPane.showMessageDialog(this, "Course deleted successfully!");
+    }
+    }//GEN-LAST:event_deleteCourseButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -107,7 +346,12 @@ public class InstructorDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addCourseButton;
     private javax.swing.JTable courseTable;
+    private javax.swing.JButton deleteCourseButton;
+    private javax.swing.JButton editCourseButton;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton manageLessonsButton;
+    private javax.swing.JButton viewEnrolledStudents;
     // End of variables declaration//GEN-END:variables
 }
