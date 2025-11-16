@@ -16,6 +16,8 @@ import java.io.*;
 public class JsonDatabaseManager {
 
     private static final String USERS_FILE = "users.json";
+    private static final String COURSES_FILE = "courses.json";
+
 
     public static JSONArray loadUsers() {
         try {
@@ -44,5 +46,40 @@ public class JsonDatabaseManager {
         }
         return null;
     }
+   
+    public static JSONArray loadCourses() {
+    try {
+        String content = new String(Files.readAllBytes(Paths.get(COURSES_FILE)));
+        return new JSONArray(content);
+    } catch (Exception e) {
+        return new JSONArray();
+    }
+}
+
+
+ public static void saveCourses(JSONArray coursesArray) {
+    try (FileWriter fw = new FileWriter(COURSES_FILE)) {
+        fw.write(coursesArray.toString(4)); 
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+    public static JSONObject findCourseById(String courseId) {
+    JSONArray courses = loadCourses();
+    for (int i = 0; i < courses.length(); i++) {
+        JSONObject c = courses.getJSONObject(i);
+        if (c.getString("courseId").equals(courseId)) {
+            return c;
+        }
+    }
+    return null;
+}
+
+   public static boolean courseIdExists(String courseId) {
+    return findCourseById(courseId) != null;
+}
+
+   
 }
 
