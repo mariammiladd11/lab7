@@ -5,10 +5,10 @@
 package labmemes;
 
 import java.util.ArrayList;
-<<<<<<< HEAD
-=======
 import static labmemes.InstructorManagement.addCourseToInstructor;
->>>>>>> 6fa7080369376af889396dd16423f6262b69dd7e
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 

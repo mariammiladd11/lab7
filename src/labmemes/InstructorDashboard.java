@@ -165,14 +165,26 @@ public InstructorDashboard(Instructor instructor) {
     }// </editor-fold>//GEN-END:initComponents
    private void loadCourses() {
     DefaultTableModel model = (DefaultTableModel) courseTable.getModel();
-    model.setRowCount(0); // clear previous data
-    for (String courseId :  instructor.getCreatedCourses()) {
-        JSONObject course = JsonDatabaseManager.getCourseById(courseId);
-        model.addRow(new Object[]{
-            course.getString("courseId"),
-            course.getString("title"),
-            course.getString("description")
-        });
+    model.setRowCount(0);
+
+    JSONArray courses = JsonDatabaseManager.loadCourses();
+
+    if (courses == null) {
+        System.out.println("No courses found in file.");
+        return;
+    }
+
+    for (int i = 0; i < courses.length(); i++) {
+        JSONObject c = courses.getJSONObject(i);
+
+        // Only load courses created by the logged-in instructor
+        if (c.getString("instructorId").equals(instructor.getUserId())) {
+            model.addRow(new Object[]{
+                c.getString("courseId"),
+                c.getString("title"),
+                c.getString("description")
+            });
+        }
     }
 }
    private String getSelectedCourseId() {

@@ -20,5 +20,37 @@
         "email": "mariam@",
         "passwordHash": "58fdb3ab50962f7423a2fe7d3004fcd4699008d66b9cb6e8d661b327965b4687",
         "username": "mariam"
+    },
+    {
+        "role": "instructor",
+        "createdCourses": ["C1"],
+        "userId": "U1763316943921",
+        "email": "mariam@gmail",
+        "passwordHash": "064b1b60fa96dc5a7a49f461f1ceb7a0db34d38405f4fb9dea9241ad408a00f6",
+        "username": "mariam"
+    },
+    {
+        "role": "instructor",
+        "createdCourses": [],
+        "userId": "U1763317076720",
+        "email": "memes@",
+        "passwordHash": "064b1b60fa96dc5a7a49f461f1ceb7a0db34d38405f4fb9dea9241ad408a00f6",
+        "username": "memes"
+    },
+    {
+        "role": "instructor",
+        "createdCourses": [],
+        "userId": "U1763317579714",
+        "email": "mariam@m",
+        "passwordHash": "064b1b60fa96dc5a7a49f461f1ceb7a0db34d38405f4fb9dea9241ad408a00f6",
+        "username": "mariam"
+    },
+    {
+        "role": "instructor",
+        "createdCourses": [],
+        "userId": "U1763317912024",
+        "email": "solom@",
+        "passwordHash": "36bb9f7fa53e8c29dd307d320648aacd0e444c2eff8ae0440232c719198d1acd",
+        "username": "solom"
     }
 ]

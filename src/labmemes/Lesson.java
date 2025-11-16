@@ -1,6 +1,9 @@
 package labmemes;
 
+import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -38,7 +41,40 @@ public class Lesson {
     public String toString() {
         return title + (completed ? " ✅" : "");
     }
-    
+    public JSONObject toJson() {
+    JSONObject obj = new JSONObject();
+    obj.put("lessonId", lessonId);
+    obj.put("title", title);
+    obj.put("content", content);
+
+    JSONArray arr = new JSONArray();
+    if (resources != null) {
+        for (String r : resources) arr.put(r);
+    }
+    obj.put("resources", arr);
+
+    obj.put("completed", completed);
+
+    return obj;
+}
+
+public static Lesson fromJson(JSONObject obj) {
+    String id = obj.getString("lessonId");
+    String title = obj.getString("title");
+    String content = obj.getString("content");
+
+    List<String> resList = new ArrayList<>();
+    JSONArray arr = obj.optJSONArray("resources");
+    if (arr != null) {
+        for (int i = 0; i < arr.length(); i++) {
+            resList.add(arr.getString(i));
+        }
+    }
+
+    Lesson lesson = new Lesson(id, title, content, resList);
+    lesson.setCompleted(obj.optBoolean("completed", false));
+    return lesson;
+}
     
     
 }
