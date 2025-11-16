@@ -19,7 +19,9 @@ public class Instructor extends User {
         super(userId, "instructor", username, email, passwordHash);
     }
 
-    public ArrayList<String> getCreatedCourses() { return createdCourses; }
+    public ArrayList<String> getCreatedCourses() { 
+            return createdCourses; 
+    }
     public void addCourse(String courseId) {
         if (!createdCourses.contains(courseId)) {
             createdCourses.add(courseId);

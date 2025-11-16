@@ -133,11 +133,11 @@ public class LoginFrame extends javax.swing.JFrame {
         // role-based navigation
         if ("student".equalsIgnoreCase(user.getRole())) {
             SwingUtilities.invokeLater(() -> {
-                new StudentDashboardFrame((Student) user).setVisible(true);
+                new StudentDashboard((Student) user).setVisible(true);
             });
         } else {
             SwingUtilities.invokeLater(() -> {
-                new InstructorDashboardFrame((Instructor) user).setVisible(true);
+                new InstructorDashboard((Instructor) user).setVisible(true);
             });
         }
         this.dispose();
