@@ -174,7 +174,7 @@ public class signup extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Please fill all fields.", "Validation", JOptionPane.WARNING_MESSAGE);
         return;
     }
-    if (!email.contains("@")) {
+    if (!email.contains("@") || !email.contains(".com") ) {
         JOptionPane.showMessageDialog(this, "Enter a valid email.", "Validation", JOptionPane.WARNING_MESSAGE);
         return;
     }

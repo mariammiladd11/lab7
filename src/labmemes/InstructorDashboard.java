@@ -227,7 +227,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
     private void manageLessonsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageLessonsButtonActionPerformed
       String courseId = getSelectedCourseId();
     if (courseId == null) {
-        JOptionPane.showMessageDialog(this, "Select a course first!");
+        
         return;
     }
 
@@ -280,10 +280,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         String courseId = getSelectedCourseId(); 
     JSONObject course = JsonDatabaseManager.getCourseById(courseId);
-    if (course == null) {
-        JOptionPane.showMessageDialog(this, "Course not found!");
-        return;
-    }
+   
 
     String newTitle = JOptionPane.showInputDialog(this, "Enter new course title:", course.getString("title"));
     if (newTitle == null) 

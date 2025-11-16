@@ -1,43 +1,5 @@
 [
     {
-        "role": "student",
-        "enrolledCourses": [],
-        "userId": "U1763297425415",
-        "email": "mariam@test.com",
-        "passwordHash": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
-        "username": "mariam"
-    },
-    {
-        "role": "Item 1",
-        "userId": "U1763304896513",
-        "email": "mariam@gmail.cok",
-        "passwordHash": "064b1b60fa96dc5a7a49f461f1ceb7a0db34d38405f4fb9dea9241ad408a00f6",
-        "username": "mariam"
-    },
-    {
-        "role": "Item 2",
-        "userId": "U1763305382122",
-        "email": "mariam@",
-        "passwordHash": "58fdb3ab50962f7423a2fe7d3004fcd4699008d66b9cb6e8d661b327965b4687",
-        "username": "mariam"
-    },
-    {
-        "role": "instructor",
-        "createdCourses": ["C1"],
-        "userId": "U1763316943921",
-        "email": "mariam@gmail",
-        "passwordHash": "064b1b60fa96dc5a7a49f461f1ceb7a0db34d38405f4fb9dea9241ad408a00f6",
-        "username": "mariam"
-    },
-    {
-        "role": "instructor",
-        "createdCourses": [],
-        "userId": "U1763317076720",
-        "email": "memes@",
-        "passwordHash": "064b1b60fa96dc5a7a49f461f1ceb7a0db34d38405f4fb9dea9241ad408a00f6",
-        "username": "memes"
-    },
-    {
         "role": "instructor",
         "createdCourses": [],
         "userId": "U1763317579714",
@@ -63,25 +25,13 @@
     },
     {
         "role": "instructor",
-        "createdCourses": ["C2"],
+        "createdCourses": [
+            "C2",
+            "C4"
+        ],
         "userId": "U1763321159320",
         "email": "sarah@",
         "passwordHash": "d233633d9524e84c71d6fe45eb3836f8919148e4a5fc2234cc9e6494ec0f11c2",
         "username": "sarah"
-    },
-    {
-        "role": "student",
-        "enrolledCourses": [
-            "C3",
-            "C2"
-        ],
-        "progress": {
-            "C3": ["1"],
-            "C2": []
-        },
-        "userId": "U1763321759722",
-        "email": "sami@",
-        "passwordHash": "24964a2764be8975c0958a4fa05e4040f9f76adb6f50bb8e290349ecc31f7a5f",
-        "username": "sami"
     }
 ]

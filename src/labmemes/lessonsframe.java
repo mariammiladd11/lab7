@@ -84,15 +84,23 @@ public class lessonsframe extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Lesson ID", "Lesson Title", "Content"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         addLesson.setText("addLesson");
@@ -136,17 +144,28 @@ public class lessonsframe extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addLessonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLessonActionPerformed
+       
+        
         String lessonId = JOptionPane.showInputDialog(this, "Enter Lesson ID:");
     if (lessonId == null || lessonId.isEmpty()) return;
+    List<Lesson> lessons = JsonDatabaseManager.getLessons(courseId);
+    for (Lesson l : lessons) {
+        if (l.getLessonId().equalsIgnoreCase(lessonId)) {
+            JOptionPane.showMessageDialog(this,
+                    "Lesson ID already exists! Please choose a different ID.",
+                    "Duplicate ID",
+                    JOptionPane.ERROR_MESSAGE);
+            return; // stop adding
+        }
+    }
 
-    String title = JOptionPane.showInputDialog(this, "Enter Lesson Title:");
+   String title = JOptionPane.showInputDialog(this, "Enter Lesson Title:");
     if (title == null || title.isEmpty()) return;
 
     String content = JOptionPane.showInputDialog(this, "Enter Lesson Content:");
     if (content == null) return;
 
-    Lesson newLesson = new Lesson(lessonId, title, content, null); // resources null
-    List<Lesson> lessons = JsonDatabaseManager.getLessons(courseId);
+    Lesson newLesson = new Lesson(lessonId, title, content, null); 
     lessons.add(newLesson);
     JsonDatabaseManager.saveLessons(courseId, lessons);
 
@@ -215,6 +234,7 @@ public class lessonsframe extends javax.swing.JFrame {
     private void addLesson() {
         String lessonId = JOptionPane.showInputDialog(this, "Enter Lesson ID:");
         if (lessonId == null || lessonId.isEmpty()) return;
+        
 
         String title = JOptionPane.showInputDialog(this, "Enter Lesson Title:");
         if (title == null || title.isEmpty()) return;
