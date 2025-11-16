@@ -26,7 +26,6 @@ public class studentDashboard extends javax.swing.JFrame {
     public studentDashboard(String studentId) {
         initComponents();
         this.studentId = studentId;
-        initComponents();
         loadCourses();
     }
 
@@ -140,7 +139,7 @@ public class studentDashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
       private void loadCourses() {
-        JSONArray courses = (JSONArray) CourseManagement.browseCourses();
+          JSONArray courses = (JSONArray) CourseManagement.browseCourses();
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (int i = 0; i < courses.length(); i++) {
             JSONObject c = courses.getJSONObject(i);
@@ -156,6 +155,7 @@ public class studentDashboard extends javax.swing.JFrame {
         });
     }
       private void loadLessons() {
+          lessonTableModel=(DefaultTableModel) jTable1.getModel();
         lessonTableModel.setRowCount(0);
         String selected = coursesList.getSelectedValue();
         if (selected == null) return;

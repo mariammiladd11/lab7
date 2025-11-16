@@ -146,6 +146,8 @@ public class StudentEnrolled extends javax.swing.JFrame {
         });
     }
       private void loadLessons() {
+                    lessonTableModel=(DefaultTableModel) jTable1.getModel();
+
         lessonTableModel.setRowCount(0);
         String selected = coursesList.getSelectedValue();
         if (selected == null) return;
