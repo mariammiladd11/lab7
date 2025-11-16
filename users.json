@@ -71,7 +71,14 @@
     },
     {
         "role": "student",
-        "enrolledCourses": [],
+        "enrolledCourses": [
+            "C3",
+            "C2"
+        ],
+        "progress": {
+            "C3": ["1"],
+            "C2": []
+        },
         "userId": "U1763321759722",
         "email": "sami@",
         "passwordHash": "24964a2764be8975c0958a4fa05e4040f9f76adb6f50bb8e290349ecc31f7a5f",

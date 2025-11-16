@@ -14,38 +14,46 @@ import java.util.List;
 import java.util.Map;
 
 public class Student extends User {
+
     private ArrayList<String> enrolledCourses = new ArrayList<>();
     private Map<String, List<String>> progress = new HashMap<>();
+
     public Student(String userId, String username, String email, String passwordHash) {
         super(userId, "student", username, email, passwordHash);
     }
-    public Map<String, List<String>> getProgress() {
-    return progress;
-}
 
-    public ArrayList<String> getEnrolledCourses() { return enrolledCourses; }
-    
+    public Map<String, List<String>> getProgress() {
+        return progress;
+    }
+
+    public ArrayList<String> getEnrolledCourses() {
+        return enrolledCourses;
+    }
+
     public void enrollCourse(String courseId) {
         if (!enrolledCourses.contains(courseId)) {
             enrolledCourses.add(courseId);
-            progress.put(courseId, new ArrayList<>()); 
+            progress.put(courseId, new ArrayList<>());
         }
     }
 
-   
     public void markLessonCompleted(String courseId, String lessonId) {
         if (!progress.containsKey(courseId)) {
             progress.put(courseId, new ArrayList<>());
         }
 
         List<String> completedLessons = progress.get(courseId);
+        progress.remove(courseId);
 
         if (!completedLessons.contains(lessonId)) {
             completedLessons.add(lessonId);
         }
+        progress.put(courseId, completedLessons);
+        System.out.println(progress.isEmpty());
     }
+
     public List<String> getCompletedLessons(String courseId) {
-        return progress.getOrDefault(courseId, new ArrayList<>());
+        return progress.get(courseId);
     }
 
     @Override

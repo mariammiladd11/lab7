@@ -9,7 +9,7 @@
     },
     {
         "description": "sc",
-        "students": [],
+        "students": ["U1763321759722"],
         "title": "sc",
         "courseId": "C2",
         "instructorId": "U1763321159320",
@@ -17,7 +17,7 @@
     },
     {
         "description": "test",
-        "students": [],
+        "students": ["U1763321759722"],
         "title": "database",
         "courseId": "C3",
         "instructorId": "U1763317912024",

@@ -22,16 +22,17 @@ public class StudentEnrolled extends javax.swing.JFrame {
      */
     private String studentId; // logged-in student id
     private DefaultTableModel lessonTableModel;
-    
+
     public StudentEnrolled(String studentId) {
         this.studentId = studentId;
         initComponents();
-        loadCourses();
+        loadEnrolledCourses();
     }
 
     private StudentEnrolled() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -129,33 +130,50 @@ public class StudentEnrolled extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-      private void loadCourses() {
-        JSONArray courses = (JSONArray) CourseManagement.browseCourses();
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (int i = 0; i < courses.length(); i++) {
-            JSONObject c = courses.getJSONObject(i);
-            listModel.addElement(c.getString("courseId") + " - " + c.getString("title"));
-        }
-        coursesList.setModel(listModel);
+      private void loadEnrolledCourses() {
+    StudentService ss = new StudentService();
 
-        // Load lessons when a course is selected
-        coursesList.addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                loadLessons();
-            }
-        });
+    List<String> enrolledIds = ss.getEnrolledCourseIds(studentId);
+
+    DefaultListModel<String> listModel = new DefaultListModel<>();
+
+    
+    JSONArray allCourses = CourseManagement.browseCourses();
+
+   
+    for (int i = 0; i < allCourses.length(); i++) {
+        JSONObject c = allCourses.getJSONObject(i);
+        String courseId = c.getString("courseId");
+
+        if (enrolledIds.contains(courseId)) {
+            listModel.addElement(courseId + " - " + c.getString("title"));
+        }
     }
-      private void loadLessons() {
-                    lessonTableModel=(DefaultTableModel) jTable1.getModel();
+
+    coursesList.setModel(listModel);
+
+  
+    coursesList.addListSelectionListener(e -> {
+        if (!e.getValueIsAdjusting()) {
+            loadLessons();
+        }
+    });
+}
+
+    private void loadLessons() {
+        lessonTableModel = (DefaultTableModel) jTable1.getModel();
 
         lessonTableModel.setRowCount(0);
         String selected = coursesList.getSelectedValue();
-        if (selected == null) return;
+        if (selected == null) {
+            return;
+        }
 
         String courseId = selected.split(" - ")[0];
         JSONArray lessons = (JSONArray) CourseManagement.viewLessons(courseId);
         StudentService ss = new StudentService();
         List<String> completedLessons = ss.getCompletedLessons(studentId, courseId);
+       
 
         for (int i = 0; i < lessons.length(); i++) {
             JSONObject lesson = lessons.getJSONObject(i);
@@ -169,13 +187,16 @@ public class StudentEnrolled extends javax.swing.JFrame {
         // TODO add your handling code here:
         StudentService ss = new StudentService();
         String selected = coursesList.getSelectedValue();
-        if (selected == null) return;
+        if (selected == null) {
+            return;
+        }
         String courseId = selected.split(" - ")[0];
+        System.out.println(courseId);
 
         for (int i = 0; i < lessonTableModel.getRowCount(); i++) {
             boolean completed = (Boolean) lessonTableModel.getValueAt(i, 2);
             String lessonId = (String) lessonTableModel.getValueAt(i, 0);
-            if (completed) {
+            if (!completed) {
                 ss.completeLesson(studentId, courseId, lessonId);
             }
         }

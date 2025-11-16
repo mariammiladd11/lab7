@@ -16,7 +16,7 @@ import org.json.JSONObject;
  * @author Linae
  */
 public class StudentService {
-    
+
     // -------------------------------------------------------
     // 1. Load student object from JSON
     // -------------------------------------------------------
@@ -26,8 +26,8 @@ public class StudentService {
         for (int i = 0; i < arr.length(); i++) {
             JSONObject u = arr.getJSONObject(i);
 
-            if (u.getString("userId").equals(studentId) &&
-                u.getString("role").equals("student")) {
+            if (u.getString("userId").equals(studentId)
+                    && u.getString("role").equals("student")) {
 
                 Student s = new Student(
                         u.getString("userId"),
@@ -97,7 +97,9 @@ public class StudentService {
     // -------------------------------------------------------
     public boolean enrollCourse(String studentId, String courseId) {
         Student s = getStudentById(studentId);
-        if (s == null) return false;
+        if (s == null) {
+            return false;
+        }
 
         s.enrollCourse(courseId);
         saveStudent(s);
@@ -110,7 +112,9 @@ public class StudentService {
     // -------------------------------------------------------
     public List<String> getEnrolledCourseIds(String studentId) {
         Student s = getStudentById(studentId);
-        if (s == null) return new ArrayList<>();
+        if (s == null) {
+            return new ArrayList<>();
+        }
 
         return s.getEnrolledCourses();
     }
@@ -119,51 +123,61 @@ public class StudentService {
     // 5. Mark lesson completed
     // -------------------------------------------------------
     public boolean completeLesson(String studentId, String courseId, String lessonId) {
+        System.out.println(studentId);
         Student s = getStudentById(studentId);
-        if (s == null) return false;
+        if (s == null) {
+            return false;
+        }
 
         s.markLessonCompleted(courseId, lessonId);
+
         saveStudent(s);
 
         return true;
     }
-    
+
     public static void completeLessons(String studentId, String courseId, String lessonId) {
-    JSONArray users = loadUsers();
+        JSONArray users = loadUsers();
 
-    for (int i = 0; i < users.length(); i++) {
-        JSONObject u = users.getJSONObject(i);
+        for (int i = 0; i < users.length(); i++) {
+            JSONObject u = users.getJSONObject(i);
 
-        if (u.getString("userId").equals(studentId)) {
+            if (u.getString("userId").equals(studentId)) {
 
-            JSONObject progress = u.optJSONObject("progress");
-            if (progress == null) progress = new JSONObject();
+                JSONObject progress = u.optJSONObject("progress");
+                if (progress == null) {
+                    progress = new JSONObject();
+                }
 
-            JSONArray completed = progress.optJSONArray(courseId);
-            if (completed == null) completed = new JSONArray();
+                JSONArray completed = progress.optJSONArray(courseId);
+                if (completed == null) {
+                    completed = new JSONArray();
+                }
 
-            // Avoid duplicates
-            if (!completed.toList().contains(lessonId)) {
-                completed.put(lessonId);
+                // Avoid duplicates
+                if (!completed.toList().contains(lessonId)) {
+                    completed.put(lessonId);
+                }
+
+                progress.put(courseId, completed);
+                u.put("progress", progress);
+
+                saveUsers(users);
+                return;
             }
-
-            progress.put(courseId, completed);
-            u.put("progress", progress);
-
-            saveUsers(users);
-            return;
         }
     }
-}
 
     // -------------------------------------------------------
     // 6. Get completed lessons
     // -------------------------------------------------------
     public List<String> getCompletedLessons(String studentId, String courseId) {
         Student s = getStudentById(studentId);
-        if (s == null) return new ArrayList<>();
+        if (s == null) {
+            return new ArrayList<>();
+        }
 
         return s.getCompletedLessons(courseId);
     }
-    
+
 }
