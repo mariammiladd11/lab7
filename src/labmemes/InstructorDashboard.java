@@ -225,33 +225,15 @@ public class InstructorDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_addCourseButtonActionPerformed
 
     private void manageLessonsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageLessonsButtonActionPerformed
-        // TODO add your handling code here:
-        String courseId = getSelectedCourseId();
-    if (courseId == null) return;
-
-    currentCourseId = courseId;
-    showingLessons = true;
-
-    addCourseButton.setVisible(false);
-    editCourseButton.setVisible(false);
-    deleteCourseButton.setVisible(false);
-    manageLessonsButton.setVisible(false);
-    viewEnrolledStudents.setVisible(false);
-    backToCoursesButton.setVisible(true);
-
-    DefaultTableModel model = (DefaultTableModel) courseTable.getModel();
-    model.setRowCount(0);
-    model.setColumnIdentifiers(new String[]{"Lesson Title", "Lesson ID", "Content"});
-
-    JSONArray lessons = JsonDatabaseManager.getLessonsByCourseId(courseId);
-    for (int i = 0; i < lessons.length(); i++) {
-        JSONObject lesson = lessons.getJSONObject(i);
-        model.addRow(new Object[]{
-            lesson.getString("lessonId"),
-            lesson.getString("title"),
-            lesson.getString("content")
-        });
+      String courseId = getSelectedCourseId();
+    if (courseId == null) {
+        JOptionPane.showMessageDialog(this, "Select a course first!");
+        return;
     }
+
+    // Open the lessonsframe for the selected course
+    lessonsframe lessonsWindow = new lessonsframe(courseId); // pass courseId
+    lessonsWindow.setVisible(true);
     }//GEN-LAST:event_manageLessonsButtonActionPerformed
 
     private void viewEnrolledStudentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewEnrolledStudentsActionPerformed

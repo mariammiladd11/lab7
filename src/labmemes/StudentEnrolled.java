@@ -130,7 +130,7 @@ public class StudentEnrolled extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
       private void loadCourses() {
-        JSONArray courses = CourseManagement.browseCourses();
+        JSONArray courses = (JSONArray) CourseManagement.browseCourses();
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (int i = 0; i < courses.length(); i++) {
             JSONObject c = courses.getJSONObject(i);
@@ -151,7 +151,7 @@ public class StudentEnrolled extends javax.swing.JFrame {
         if (selected == null) return;
 
         String courseId = selected.split(" - ")[0];
-        JSONArray lessons = CourseManagement.viewLessons(courseId);
+        JSONArray lessons = (JSONArray) CourseManagement.viewLessons(courseId);
         StudentService ss = new StudentService();
         List<String> completedLessons = ss.getCompletedLessons(studentId, courseId);
 

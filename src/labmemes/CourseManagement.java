@@ -6,12 +6,6 @@ package labmemes;
 
 import java.util.ArrayList;
 import static labmemes.InstructorManagement.addCourseToInstructor;
-<<<<<<< HEAD
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-=======
->>>>>>> c73e60bf587241b222657548eff303c27d7ffe02
 import org.json.JSONArray;
 import org.json.JSONObject;
 

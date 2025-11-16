@@ -1,8 +1,26 @@
-[{
-    "description": "diff",
-    "students": [],
-    "title": "maths",
-    "courseId": "C1",
-    "instructorId": "U1763316943921",
-    "lessons": []
-}]
+[
+    {
+        "description": "diff",
+        "students": [],
+        "title": "maths",
+        "courseId": "C1",
+        "instructorId": "U1763316943921",
+        "lessons": []
+    },
+    {
+        "description": "sc",
+        "students": [],
+        "title": "sc",
+        "courseId": "C2",
+        "instructorId": "U1763321159320",
+        "lessons": []
+    },
+    {
+        "description": "test",
+        "students": [],
+        "title": "database",
+        "courseId": "C3",
+        "instructorId": "U1763317912024",
+        "lessons": []
+    }
+]

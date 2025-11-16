@@ -18,7 +18,7 @@ public class LoginFrame extends javax.swing.JFrame {
      * Creates new form LoginFrame
      */
     public LoginFrame() {
-           setTitle("SkillForge - Login");
+        setTitle("SkillForge - Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(420, 260);
         setLocationRelativeTo(null);
@@ -112,7 +112,7 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_emailFieldActionPerformed
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
-         String email = emailField.getText().trim();
+        String email = emailField.getText().trim();
         String password = new String(passwordField.getPassword());
 
         if (email.isEmpty() || password.isEmpty()) {
@@ -133,7 +133,7 @@ public class LoginFrame extends javax.swing.JFrame {
         // role-based navigation
         if ("student".equalsIgnoreCase(user.getRole())) {
             SwingUtilities.invokeLater(() -> {
-                new StudentDashboard ((Student) user).setVisible(true);
+                new studentDashboard(user.getUserId()).setVisible(true);
             });
         } else {
             SwingUtilities.invokeLater(() -> {

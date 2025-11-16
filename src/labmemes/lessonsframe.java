@@ -4,49 +4,51 @@
  */
 package labmemes;
 
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import static labmemes.JsonDatabaseManager.loadLessons;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author CYBER-TECH
  */
 public class lessonsframe extends javax.swing.JFrame {
-  private String courseId;
-    private JTable table;
-    private JTextArea contentArea;
+ private String courseId = "COURSE_ID_HERE"; // replace with actual courseId
+    private DefaultTableModel lessonTableModel;
     /**
      * Creates new form lessonsframe
      */
-    public lessonsframe() {
-       this.courseId = courseId;
-        initComponents();
+   public lessonsframe(String courseId) {
+    this.courseId = courseId; // save the selected course
+    initComponents();
+    lessonTableModel = (DefaultTableModel) jTable1.getModel();
 
-        // Replace default jTable1 with our table reference
-        table = jTable1;
+    loadTable();
 
-        // Add content area manually since NetBeans didn't generate one
-        contentArea = new JTextArea();
-        contentArea.setEditable(false);
-        JScrollPane sp2 = new JScrollPane(contentArea);
-        sp2.setBounds(320, 10, 360, 350); // adjust location as needed
-        getContentPane().add(sp2);
+    jTable1.getSelectionModel().addListSelectionListener(e -> showContent());
 
-        // Add "Mark Completed" button
-        JButton completeBtn = new JButton("Mark Completed");
-        completeBtn.setBounds(320, 370, 150, 30);
-        completeBtn.addActionListener(e -> markLessonCompleted());
-        getContentPane().add(completeBtn);
+   
+}
 
-        // Table selection listener
-        table.getSelectionModel().addListSelectionListener(e -> showContent());
+    
+    
+    private void loadTable() {
+        List<Lesson> lessons = JsonDatabaseManager.getLessons(courseId);
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
 
-        loadLessons();
+        for (Lesson L : lessons) {
+            model.addRow(new Object[]{
+                    L.getLessonId(),
+                    L.getTitle(),
+                    L.isCompleted() ? "Yes" : "No"
+            });
+        }
     }
 
+ 
+
+ 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,6 +60,8 @@ public class lessonsframe extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        addLesson = new javax.swing.JButton();
+        deleteLesson = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,19 +78,87 @@ public class lessonsframe extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        addLesson.setText("addLesson");
+        addLesson.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addLessonActionPerformed(evt);
+            }
+        });
+
+        deleteLesson.setText("deleteLesson");
+        deleteLesson.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteLessonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(addLesson)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(deleteLesson)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addLesson)
+                    .addComponent(deleteLesson))
+                .addGap(0, 63, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void addLessonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLessonActionPerformed
+        String lessonId = JOptionPane.showInputDialog(this, "Enter Lesson ID:");
+    if (lessonId == null || lessonId.isEmpty()) return;
+
+    String title = JOptionPane.showInputDialog(this, "Enter Lesson Title:");
+    if (title == null || title.isEmpty()) return;
+
+    String content = JOptionPane.showInputDialog(this, "Enter Lesson Content:");
+    if (content == null) return;
+
+    Lesson newLesson = new Lesson(lessonId, title, content, null); // resources null
+    List<Lesson> lessons = JsonDatabaseManager.getLessons(courseId);
+    lessons.add(newLesson);
+    JsonDatabaseManager.saveLessons(courseId, lessons);
+
+    loadTable();
+    JOptionPane.showMessageDialog(this, "Lesson added successfully!");
+    }//GEN-LAST:event_addLessonActionPerformed
+
+    private void deleteLessonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteLessonActionPerformed
+         int row = jTable1.getSelectedRow();
+    if (row == -1) {
+        JOptionPane.showMessageDialog(this, "Select a lesson first!");
+        return;
+    }
+
+    String lessonId = jTable1.getValueAt(row, 0).toString();
+    int confirm = JOptionPane.showConfirmDialog(this,
+            "Are you sure you want to delete lesson " + lessonId + "?",
+            "Confirm Delete",
+            JOptionPane.YES_NO_OPTION);
+    if (confirm != JOptionPane.YES_OPTION) return;
+
+    List<Lesson> lessons = JsonDatabaseManager.getLessons(courseId);
+    lessons.removeIf(l -> l.getLessonId().equals(lessonId));
+    JsonDatabaseManager.saveLessons(courseId, lessons);
+
+    loadTable();
+   
+    JOptionPane.showMessageDialog(this, "Lesson deleted successfully!");
+    }//GEN-LAST:event_deleteLessonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -123,7 +195,51 @@ public class lessonsframe extends javax.swing.JFrame {
         });
     }
 
+    private void addLesson() {
+        String lessonId = JOptionPane.showInputDialog(this, "Enter Lesson ID:");
+        if (lessonId == null || lessonId.isEmpty()) return;
+
+        String title = JOptionPane.showInputDialog(this, "Enter Lesson Title:");
+        if (title == null || title.isEmpty()) return;
+
+        String content = JOptionPane.showInputDialog(this, "Enter Lesson Content:");
+        if (content == null) return;
+
+        Lesson newLesson = new Lesson(lessonId, title, content, null);
+        List<Lesson> lessons = JsonDatabaseManager.getLessons(courseId);
+        lessons.add(newLesson);
+        JsonDatabaseManager.saveLessons(courseId, lessons);
+
+        loadTable();
+        JOptionPane.showMessageDialog(this, "Lesson added successfully!");
+    }
+
+    private void deleteLesson() {
+        int row = jTable1.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Select a lesson first!");
+            return;
+        }
+
+        String lessonId = jTable1.getValueAt(row, 0).toString();
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "Are you sure you want to delete lesson " + lessonId + "?",
+                "Confirm Delete",
+                JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) return;
+
+        List<Lesson> lessons = JsonDatabaseManager.getLessons(courseId);
+        lessons.removeIf(l -> l.getLessonId().equals(lessonId));
+        JsonDatabaseManager.saveLessons(courseId, lessons);
+
+        loadTable();
+       
+        JOptionPane.showMessageDialog(this, "Lesson deleted successfully!");
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addLesson;
+    private javax.swing.JButton deleteLesson;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

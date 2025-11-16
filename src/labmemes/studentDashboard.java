@@ -24,14 +24,13 @@ public class studentDashboard extends javax.swing.JFrame {
     private DefaultTableModel lessonTableModel;
     
     public studentDashboard(String studentId) {
+        initComponents();
         this.studentId = studentId;
         initComponents();
         loadCourses();
     }
 
-    private studentDashboard() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -89,6 +88,11 @@ public class studentDashboard extends javax.swing.JFrame {
         });
 
         viewEnrollmentsBtn.setText("View Enrollments");
+        viewEnrollmentsBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewEnrollmentsBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -136,7 +140,7 @@ public class studentDashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
       private void loadCourses() {
-        JSONArray courses = CourseManagement.browseCourses();
+        JSONArray courses = (JSONArray) CourseManagement.browseCourses();
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (int i = 0; i < courses.length(); i++) {
             JSONObject c = courses.getJSONObject(i);
@@ -157,7 +161,7 @@ public class studentDashboard extends javax.swing.JFrame {
         if (selected == null) return;
 
         String courseId = selected.split(" - ")[0];
-        JSONArray lessons = CourseManagement.viewLessons(courseId);
+        JSONArray lessons = (JSONArray) CourseManagement.viewLessons(courseId);
         StudentService ss = new StudentService();
         List<String> completedLessons = ss.getCompletedLessons(studentId, courseId);
 
@@ -184,59 +188,24 @@ public class studentDashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Already enrolled or error!");
         }
     }//GEN-LAST:event_enrollBtnActionPerformed
-     private void viewEnrollmentsBtnActionPerformed(java.awt.event.ActionEvent evt) {                                            
-    // Open the StudentEnrolled JFrame
-    StudentEnrolled enrolledFrame = new StudentEnrolled(studentId); // pass student ID if needed
-    enrolledFrame.setVisible(true);
-    this.dispose(); // optional: close current dashboard
-    }
+   
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
         // TODO add your handling code here:
         this.dispose(); // close dashboard
         new LoginFrame().setVisible(true); // show login
     }//GEN-LAST:event_logoutBtnActionPerformed
 
+    private void viewEnrollmentsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewEnrollmentsBtnActionPerformed
+        // TODO add your handling code here: // Open the StudentEnrolled JFrame
+    StudentEnrolled enrolledFrame = new StudentEnrolled(studentId); // pass student ID if needed
+    enrolledFrame.setVisible(true);
+    this.dispose(); // optional: close current dashboard
+    }//GEN-LAST:event_viewEnrollmentsBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(studentDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(studentDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(studentDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(studentDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new studentDashboard().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> coursesList;

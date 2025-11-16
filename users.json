@@ -47,10 +47,34 @@
     },
     {
         "role": "instructor",
-        "createdCourses": [],
+        "createdCourses": ["C3"],
         "userId": "U1763317912024",
         "email": "solom@",
         "passwordHash": "36bb9f7fa53e8c29dd307d320648aacd0e444c2eff8ae0440232c719198d1acd",
         "username": "solom"
+    },
+    {
+        "role": "student",
+        "enrolledCourses": [],
+        "userId": "U1763320428778",
+        "email": "lina@",
+        "passwordHash": "9d8d7dcb8f6d4d71ffc8277e4a8a4326c93da239cace375d47c4a35830b3e88b",
+        "username": "lina"
+    },
+    {
+        "role": "instructor",
+        "createdCourses": ["C2"],
+        "userId": "U1763321159320",
+        "email": "sarah@",
+        "passwordHash": "d233633d9524e84c71d6fe45eb3836f8919148e4a5fc2234cc9e6494ec0f11c2",
+        "username": "sarah"
+    },
+    {
+        "role": "student",
+        "enrolledCourses": [],
+        "userId": "U1763321759722",
+        "email": "sami@",
+        "passwordHash": "24964a2764be8975c0958a4fa05e4040f9f76adb6f50bb8e290349ecc31f7a5f",
+        "username": "sami"
     }
 ]
