@@ -1,9 +1,7 @@
 package labmemes;
 
 
-import *;
 import java.util.ArrayList;
-import labmemes.JsonDatabaseManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
