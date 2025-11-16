@@ -4,17 +4,47 @@
  */
 package labmemes;
 
+import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import static labmemes.JsonDatabaseManager.loadLessons;
+
 /**
  *
  * @author CYBER-TECH
  */
 public class lessonsframe extends javax.swing.JFrame {
-
+  private String courseId;
+    private JTable table;
+    private JTextArea contentArea;
     /**
      * Creates new form lessonsframe
      */
     public lessonsframe() {
+       this.courseId = courseId;
         initComponents();
+
+        // Replace default jTable1 with our table reference
+        table = jTable1;
+
+        // Add content area manually since NetBeans didn't generate one
+        contentArea = new JTextArea();
+        contentArea.setEditable(false);
+        JScrollPane sp2 = new JScrollPane(contentArea);
+        sp2.setBounds(320, 10, 360, 350); // adjust location as needed
+        getContentPane().add(sp2);
+
+        // Add "Mark Completed" button
+        JButton completeBtn = new JButton("Mark Completed");
+        completeBtn.setBounds(320, 370, 150, 30);
+        completeBtn.addActionListener(e -> markLessonCompleted());
+        getContentPane().add(completeBtn);
+
+        // Table selection listener
+        table.getSelectionModel().addListSelectionListener(e -> showContent());
+
+        loadLessons();
     }
 
     /**
@@ -26,17 +56,33 @@ public class lessonsframe extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
         );
 
         pack();
@@ -78,5 +124,7 @@ public class lessonsframe extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

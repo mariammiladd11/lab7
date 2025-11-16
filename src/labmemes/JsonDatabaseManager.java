@@ -12,6 +12,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import java.nio.file.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JsonDatabaseManager {
 
@@ -119,6 +121,55 @@ public static JSONObject getLessonById(String lessonId) {
     return null;
 }
 
-   
+public static List<Lesson> getLessons(String courseId) {
+    List<Lesson> lessons = new ArrayList<>();
+    JSONArray courses = loadCourses();
+
+    for (int i = 0; i < courses.length(); i++) {
+        JSONObject c = courses.getJSONObject(i);
+
+        if (c.getString("courseId").equals(courseId)) {
+            JSONArray arr = c.optJSONArray("lessons");
+            if (arr == null) return lessons;
+
+            for (int j = 0; j < arr.length(); j++) {
+                lessons.add(Lesson.fromJson(arr.getJSONObject(j)));
+            }
+        }
+    }
+    return lessons;
+}
+   public static void saveLessons(String courseId, List<Lesson> lessons) {
+    JSONArray courses = loadCourses();
+
+    for (int i = 0; i < courses.length(); i++) {
+        JSONObject c = courses.getJSONObject(i);
+
+        if (c.getString("courseId").equals(courseId)) {
+
+            JSONArray arr = new JSONArray();
+            for (Lesson L : lessons) {
+                arr.put(L.toJson());
+            }
+
+            c.put("lessons", arr);
+            saveCourses(courses);
+            return;
+        }
+    }
+}
+public static void markLessonCompleted(String courseId, String lessonId) {
+    List<Lesson> lessons = getLessons(courseId);
+
+    for (Lesson L : lessons) {
+        if (L.getLessonId().equals(lessonId)) {
+            L.setCompleted(true);
+            break;
+        }
+    }
+
+    saveLessons(courseId, lessons);
+}
+
 }
 
