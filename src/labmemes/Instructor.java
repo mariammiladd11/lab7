@@ -9,15 +9,17 @@ package labmemes;
  * @author CYBER-TECH
  */
 import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class Instructor extends User {
            
     
     private ArrayList<String> createdCourses = new ArrayList<>();
-
-    public Instructor(String userId, String username, String email, String passwordHash) {
+public Instructor(String userId, String username, String email, String passwordHash) {
         super(userId, "instructor", username, email, passwordHash);
-    }
+    } 
+
 
     public ArrayList<String> getCreatedCourses() { 
             return createdCourses; 
@@ -34,5 +36,8 @@ public class Instructor extends User {
     
     public boolean hasCourse(String courseId) {
         return createdCourses.contains(courseId);
+    }
+    public void setCreatedCourses(ArrayList<String> courses) {
+        this.createdCourses = courses;
     }
 }

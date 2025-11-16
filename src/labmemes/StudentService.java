@@ -6,6 +6,8 @@ package labmemes;
 
 import java.util.ArrayList;
 import java.util.List;
+import static labmemes.JsonDatabaseManager.loadUsers;
+import static labmemes.JsonDatabaseManager.saveUsers;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -125,6 +127,34 @@ public class StudentService {
 
         return true;
     }
+    
+    public static void completeLessons(String studentId, String courseId, String lessonId) {
+    JSONArray users = loadUsers();
+
+    for (int i = 0; i < users.length(); i++) {
+        JSONObject u = users.getJSONObject(i);
+
+        if (u.getString("userId").equals(studentId)) {
+
+            JSONObject progress = u.optJSONObject("progress");
+            if (progress == null) progress = new JSONObject();
+
+            JSONArray completed = progress.optJSONArray(courseId);
+            if (completed == null) completed = new JSONArray();
+
+            // Avoid duplicates
+            if (!completed.toList().contains(lessonId)) {
+                completed.put(lessonId);
+            }
+
+            progress.put(courseId, completed);
+            u.put("progress", progress);
+
+            saveUsers(users);
+            return;
+        }
+    }
+}
 
     // -------------------------------------------------------
     // 6. Get completed lessons
