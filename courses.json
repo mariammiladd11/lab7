@@ -17,7 +17,10 @@
     },
     {
         "description": "test",
-        "students": ["U1763321759722"],
+        "students": [
+            "U1763321759722",
+            "U1763320428778"
+        ],
         "title": "database",
         "courseId": "C3",
         "instructorId": "U1763317912024",

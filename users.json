@@ -17,7 +17,8 @@
     },
     {
         "role": "student",
-        "enrolledCourses": [],
+        "enrolledCourses": ["C3"],
+        "progress": {"C3": ["1"]},
         "userId": "U1763320428778",
         "email": "lina@",
         "passwordHash": "9d8d7dcb8f6d4d71ffc8277e4a8a4326c93da239cace375d47c4a35830b3e88b",

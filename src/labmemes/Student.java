@@ -53,7 +53,10 @@ public class Student extends User {
     }
 
     public List<String> getCompletedLessons(String courseId) {
-        return progress.get(courseId);
+        if( progress.get(courseId)!=null)
+            return progress.get(courseId);
+        else 
+            return new ArrayList<>();
     }
 
     @Override
