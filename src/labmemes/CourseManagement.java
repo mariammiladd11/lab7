@@ -13,7 +13,7 @@ import org.json.JSONObject;
  *
  * @author MALAK
  */
-public abstract class CourseManagement {
+public  class CourseManagement {
   public static JSONArray browseCourses(){
   return JsonDatabaseManager.loadCourses();
   }
@@ -122,4 +122,10 @@ public abstract class CourseManagement {
 
         return courseId;
     }
+   
+   
+   
+   
+   
+   
 }
