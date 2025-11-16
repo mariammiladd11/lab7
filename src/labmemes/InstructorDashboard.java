@@ -15,38 +15,45 @@ import org.json.JSONObject;
  * @author sarahkhaled
  */
 public class InstructorDashboard extends javax.swing.JFrame {
-private Instructor instructor;
-private boolean showingLessons = false; // to track what’s displayed
-private String currentCourseId = null;  // current course being viewed
-private javax.swing.JButton backToCoursesButton; // back button
+    
+ private Instructor instructor;
+    private boolean showingLessons = false;
+    private String currentCourseId = null;
+    private javax.swing.JButton backToCoursesButton;
 
 
-public InstructorDashboard(Instructor instructor) {
-    this.instructor = instructor; 
-    initComponents();
-    loadCourses();
-
-    backToCoursesButton = new javax.swing.JButton("Back to Courses");
-    backToCoursesButton.setBounds(10, 330, 150, 30); // adjust as needed
-    backToCoursesButton.setVisible(false);
-    backToCoursesButton.addActionListener(evt -> {
+     public InstructorDashboard(Instructor instructor) {
+        this.instructor = instructor;
+        initComponents();
+        setupBackButton();
         loadCourses();
-        showingLessons = false;
-        currentCourseId = null;
-
-        // Show course buttons
-        addCourseButton.setVisible(true);
-        editCourseButton.setVisible(true);
-        deleteCourseButton.setVisible(true);
-        manageLessonsButton.setVisible(true);
-        viewEnrolledStudents.setVisible(true);
+    }
+    private void setupBackButton() {
+        backToCoursesButton = new javax.swing.JButton("Back to Courses");
+        backToCoursesButton.setBounds(10, 330, 150, 30);
         backToCoursesButton.setVisible(false);
 
-        DefaultTableModel model = (DefaultTableModel) courseTable.getModel();
-        model.setColumnIdentifiers(new String[]{"Course Title", "Course ID", "Description"});
-    });
-    getContentPane().add(backToCoursesButton);
-}
+        backToCoursesButton.addActionListener(evt -> {
+            loadCourses();
+            showingLessons = false;
+            currentCourseId = null;
+            setCourseButtonsVisible(true);
+            backToCoursesButton.setVisible(false);
+
+            DefaultTableModel model = (DefaultTableModel) courseTable.getModel();
+            model.setColumnIdentifiers(new String[]{"Course Title", "Course ID", "Description"});
+        });
+
+        getContentPane().add(backToCoursesButton);
+    }
+    private void setCourseButtonsVisible(boolean visible) {
+        addCourseButton.setVisible(visible);
+        editCourseButton.setVisible(visible);
+        deleteCourseButton.setVisible(visible);
+        manageLessonsButton.setVisible(visible);
+        viewEnrolledStudents.setVisible(visible);
+    }
+    
 
     /**
      * Creates new form InstructorDashboard
@@ -82,7 +89,7 @@ public InstructorDashboard(Instructor instructor) {
                 {null, null, null}
             },
             new String [] {
-                "Course Title", "Course ID", "Description"
+                "Course ID", "Course Title", "Description"
             }
         ) {
             Class[] types = new Class [] {
@@ -176,12 +183,12 @@ public InstructorDashboard(Instructor instructor) {
     }
 }
    private String getSelectedCourseId() {
-    int row = courseTable.getSelectedRow(); // -1 if nothing selected
+    int row = courseTable.getSelectedRow();
     if (row == -1) {
         JOptionPane.showMessageDialog(this, "Please select a course first!");
         return null;
     }
-    return courseTable.getValueAt(row, 0).toString(); // returns courseId
+    return courseTable.getValueAt(row, 0).toString(); 
 }
 
 
@@ -228,8 +235,8 @@ public InstructorDashboard(Instructor instructor) {
     for (int i = 0; i < lessons.length(); i++) {
         JSONObject lesson = lessons.getJSONObject(i);
         model.addRow(new Object[]{
-            lesson.getString("title"),
             lesson.getString("lessonId"),
+            lesson.getString("title"),
             lesson.getString("content")
         });
     }

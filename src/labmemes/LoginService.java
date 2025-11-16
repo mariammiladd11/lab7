@@ -29,13 +29,22 @@ public class LoginService {
                 obj.getString("email"),
                 obj.getString("passwordHash")
             );
-        } else {
-            return new Instructor(
-                obj.getString("userId"),
-                obj.getString("username"),
-                obj.getString("email"),
-                obj.getString("passwordHash")
-            );
+        } else { 
+            Instructor instructor = new Instructor(
+        obj.getString("userId"),
+        obj.getString("username"),
+        obj.getString("email"),
+        obj.getString("passwordHash")
+    );
+
+    if (obj.has("createdCourses")) {
+        for (Object c : obj.getJSONArray("createdCourses")) {
+            instructor.addCourse(c.toString());
+        }
+    }
+
+    return instructor;
+           
         }
     }
 }
