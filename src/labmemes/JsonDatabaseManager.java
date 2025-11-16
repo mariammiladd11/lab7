@@ -17,6 +17,8 @@ public class JsonDatabaseManager {
 
     private static final String USERS_FILE = "users.json";
     private static final String COURSES_FILE = "courses.json";
+    private static final String LESSONS_FILE = "lessons.json";
+
 
 
     public static JSONArray loadUsers() {
@@ -65,7 +67,7 @@ public class JsonDatabaseManager {
     }
 }
 
-    public static JSONObject findCourseById(String courseId) {
+    public static JSONObject getCourseById(String courseId) {
     JSONArray courses = loadCourses();
     for (int i = 0; i < courses.length(); i++) {
         JSONObject c = courses.getJSONObject(i);
@@ -77,7 +79,44 @@ public class JsonDatabaseManager {
 }
 
    public static boolean courseIdExists(String courseId) {
-    return findCourseById(courseId) != null;
+    return getCourseById(courseId) != null;
+}
+public static JSONArray loadLessons() {
+    try {
+        String content = new String(Files.readAllBytes(Paths.get(LESSONS_FILE)));
+        return new JSONArray(content);
+    } catch (Exception e) {
+        return new JSONArray();
+    }
+}
+
+public static void saveLessons(JSONArray lessonsArray) {
+    try (FileWriter fw = new FileWriter(LESSONS_FILE)) {
+        fw.write(lessonsArray.toString(4));
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+public static JSONArray getLessonsByCourseId(String courseId) {
+    JSONArray allLessons = loadLessons();
+    JSONArray result = new JSONArray();
+    for (int i = 0; i < allLessons.length(); i++) {
+        JSONObject lesson = allLessons.getJSONObject(i);
+        if (lesson.getString("courseId").equals(courseId)) {
+            result.put(lesson);
+        }
+    }
+    return result;
+}
+public static JSONObject getLessonById(String lessonId) {
+    JSONArray allLessons = loadLessons();
+    for (int i = 0; i < allLessons.length(); i++) {
+        JSONObject lesson = allLessons.getJSONObject(i);
+        if (lesson.getString("lessonId").equals(lessonId)) {
+            return lesson;
+        }
+    }
+    return null;
 }
 
    

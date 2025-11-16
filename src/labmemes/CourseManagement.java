@@ -4,6 +4,11 @@
  */
 package labmemes;
 
+import java.util.ArrayList;
+import static labmemes.InstructorManagement.addCourseToInstructor;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 /**
  *
  * @author MALAK
@@ -52,7 +57,7 @@ public abstract class CourseManagement {
         JsonDatabaseManager.saveCourses(courses);
     } 
    public static JSONArray viewLessons(String courseId) {
-        JSONObject c = JsonDatabaseManager.findCourseById(courseId);
+        JSONObject c = JsonDatabaseManager.getCourseById(courseId);
 
         if (c != null) {
             return c.getJSONArray("lessons");
@@ -60,7 +65,7 @@ public abstract class CourseManagement {
         return new JSONArray();
     }
    public static JSONObject getCourse(String courseId) {
-        return JsonDatabaseManager.findCourseById(courseId);
+        return JsonDatabaseManager.getCourseById(courseId);
     }
    public static ArrayList<String> getEnrolledStudents(String courseId) {
         ArrayList<String> list = new ArrayList<>();

@@ -137,7 +137,7 @@ public class LoginFrame extends javax.swing.JFrame {
             });
         } else {
             SwingUtilities.invokeLater(() -> {
-                new InstructorDashboardFrame((Instructor) user).setVisible(true);
+                new InstructorDashboard((Instructor) user).setVisible(true);
             });
         }
         this.dispose();
