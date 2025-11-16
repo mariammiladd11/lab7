@@ -4,6 +4,11 @@
  */
 package labmemes;
 
+import java.util.ArrayList;
+import static labmemes.InstructorManagement.addCourseToInstructor;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 /**
  *
  * @author MALAK
