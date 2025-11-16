@@ -144,17 +144,28 @@ public class lessonsframe extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addLessonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLessonActionPerformed
+       
+        
         String lessonId = JOptionPane.showInputDialog(this, "Enter Lesson ID:");
     if (lessonId == null || lessonId.isEmpty()) return;
+    List<Lesson> lessons = JsonDatabaseManager.getLessons(courseId);
+    for (Lesson l : lessons) {
+        if (l.getLessonId().equalsIgnoreCase(lessonId)) {
+            JOptionPane.showMessageDialog(this,
+                    "Lesson ID already exists! Please choose a different ID.",
+                    "Duplicate ID",
+                    JOptionPane.ERROR_MESSAGE);
+            return; // stop adding
+        }
+    }
 
-    String title = JOptionPane.showInputDialog(this, "Enter Lesson Title:");
+   String title = JOptionPane.showInputDialog(this, "Enter Lesson Title:");
     if (title == null || title.isEmpty()) return;
 
     String content = JOptionPane.showInputDialog(this, "Enter Lesson Content:");
     if (content == null) return;
 
-    Lesson newLesson = new Lesson(lessonId, title, content, null); // resources null
-    List<Lesson> lessons = JsonDatabaseManager.getLessons(courseId);
+    Lesson newLesson = new Lesson(lessonId, title, content, null); 
     lessons.add(newLesson);
     JsonDatabaseManager.saveLessons(courseId, lessons);
 

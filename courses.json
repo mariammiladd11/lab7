@@ -35,21 +35,12 @@
         "title": "math2",
         "courseId": "C4",
         "instructorId": "U1763321159320",
-        "lessons": [
-            {
-                "lessonId": "1",
-                "resources": [],
-                "completed": false,
-                "title": "lesson1",
-                "content": "hard"
-            },
-            {
-                "lessonId": "1",
-                "resources": [],
-                "completed": false,
-                "title": "algebra",
-                "content": "hard"
-            }
-        ]
+        "lessons": [{
+            "lessonId": "1",
+            "resources": [],
+            "completed": false,
+            "title": "math",
+            "content": "ff"
+        }]
     }
 ]
