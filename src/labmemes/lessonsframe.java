@@ -223,6 +223,7 @@ public class lessonsframe extends javax.swing.JFrame {
     private void addLesson() {
         String lessonId = JOptionPane.showInputDialog(this, "Enter Lesson ID:");
         if (lessonId == null || lessonId.isEmpty()) return;
+        
 
         String title = JOptionPane.showInputDialog(this, "Enter Lesson Title:");
         if (title == null || title.isEmpty()) return;
