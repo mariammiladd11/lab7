@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package lab_7;
+package labmemes;
 
 /**
  *
  * @author CYBER-TECH
  */
-public class Lab_7 {
+public class Labmemes {
 
     /**
      * @param args the command line arguments
