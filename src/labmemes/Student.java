@@ -14,12 +14,15 @@ import java.util.List;
 import java.util.Map;
 
 public class Student extends User {
-    private final ArrayList<String> enrolledCourses = new ArrayList<>();
+    private ArrayList<String> enrolledCourses = new ArrayList<>();
  // progress: courseId → list of completed lessonIds
-    private final Map<String, List<String>> progress = new HashMap<>();
+    private Map<String, List<String>> progress = new HashMap<>();
     public Student(String userId, String username, String email, String passwordHash) {
         super(userId, "student", username, email, passwordHash);
     }
+    public Map<String, List<String>> getProgress() {
+    return progress;
+}
 
     public ArrayList<String> getEnrolledCourses() { return enrolledCourses; }
     // -----------------------------
