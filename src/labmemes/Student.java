@@ -15,7 +15,6 @@ import java.util.Map;
 
 public class Student extends User {
     private ArrayList<String> enrolledCourses = new ArrayList<>();
- // progress: courseId → list of completed lessonIds
     private Map<String, List<String>> progress = new HashMap<>();
     public Student(String userId, String username, String email, String passwordHash) {
         super(userId, "student", username, email, passwordHash);
@@ -25,25 +24,15 @@ public class Student extends User {
 }
 
     public ArrayList<String> getEnrolledCourses() { return enrolledCourses; }
-    // -----------------------------
-    // Enrollment Features (Q3)
-    // -----------------------------
-
-    // Enroll in a course
+    
     public void enrollCourse(String courseId) {
         if (!enrolledCourses.contains(courseId)) {
             enrolledCourses.add(courseId);
-            progress.put(courseId, new ArrayList<>()); // start blank progress
+            progress.put(courseId, new ArrayList<>()); 
         }
     }
 
-    
-
-    // -----------------------------
-    // Lesson Progress Features
-    // -----------------------------
-
-    // Mark a lesson as completed
+   
     public void markLessonCompleted(String courseId, String lessonId) {
         if (!progress.containsKey(courseId)) {
             progress.put(courseId, new ArrayList<>());
@@ -55,20 +44,8 @@ public class Student extends User {
             completedLessons.add(lessonId);
         }
     }
-
-    // Retrieve completed lessons for a course
     public List<String> getCompletedLessons(String courseId) {
         return progress.getOrDefault(courseId, new ArrayList<>());
-    }
-
-    // -----------------------------
-    // POLYMORPHISM (Q3 Requirement)
-    // -----------------------------
-   
-    public void openDashboard() {
-        // This will open the student dashboard UI in Swing
-        // Example: new StudentDashboardFrame(this).setVisible(true);
-        System.out.println("Opening Student Dashboard for " + getUsername());
     }
 
     @Override
