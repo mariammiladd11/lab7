@@ -33,34 +33,36 @@ public class signup extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        passField = new javax.swing.JTextField();
         emailField = new javax.swing.JTextField();
         usernameField = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        confirmField = new javax.swing.JTextField();
         roleCombo = new javax.swing.JComboBox<>();
         signup = new javax.swing.JButton();
+        passField = new javax.swing.JPasswordField();
+        confirmField = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        passField.setText("jTextField1");
+        emailField.setText("email");
 
-        emailField.setText("jTextField1");
-
-        usernameField.setText("jTextField1");
-
-        jTextField4.setText("jTextField1");
-
-        confirmField.setText("jTextField1");
+        usernameField.setText("usename");
+        usernameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameFieldActionPerformed(evt);
+            }
+        });
 
         roleCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        signup.setText("jButton1");
+        signup.setText("sign up");
         signup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 signupActionPerformed(evt);
             }
         });
+
+        passField.setText("jPasswordField1");
+
+        confirmField.setText("jPasswordField1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -70,16 +72,18 @@ public class signup extends javax.swing.JFrame {
                 .addGap(165, 165, 165)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(roleCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(confirmField, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(confirmField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                         .addComponent(signup)
                         .addGap(25, 25, 25))))
         );
@@ -94,13 +98,11 @@ public class signup extends javax.swing.JFrame {
                 .addComponent(passField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(signup))
-                .addGap(18, 18, 18)
-                .addComponent(confirmField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                    .addComponent(signup)
+                    .addComponent(confirmField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(roleCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
+                .addGap(68, 68, 68))
         );
 
         pack();
@@ -141,6 +143,10 @@ public class signup extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_signupActionPerformed
 
+    private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameFieldActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -177,10 +183,9 @@ public class signup extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField confirmField;
+    private javax.swing.JPasswordField confirmField;
     private javax.swing.JTextField emailField;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField passField;
+    private javax.swing.JPasswordField passField;
     private javax.swing.JComboBox<String> roleCombo;
     private javax.swing.JButton signup;
     private javax.swing.JTextField usernameField;
