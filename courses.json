@@ -21,6 +21,12 @@
         "title": "database",
         "courseId": "C3",
         "instructorId": "U1763317912024",
-        "lessons": []
+        "lessons": [{
+            "lessonId": "1",
+            "resources": [],
+            "completed": false,
+            "title": "math",
+            "content": "diff"
+        }]
     }
 ]

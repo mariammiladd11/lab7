@@ -18,7 +18,11 @@ public class lessonsframe extends javax.swing.JFrame {
     /**
      * Creates new form lessonsframe
      */
-   public lessonsframe(String courseId) {
+   public lessonsframe() {
+    this.courseId = "DEFAULT"; // or null
+    initComponents();
+}
+    public lessonsframe(String courseId) {
     this.courseId = courseId; // save the selected course
     initComponents();
     lessonTableModel = (DefaultTableModel) jTable1.getModel();
@@ -31,7 +35,20 @@ public class lessonsframe extends javax.swing.JFrame {
 }
 
     
-    
+    private void showContent() {
+    int row = jTable1.getSelectedRow();
+    if (row == -1) return;
+
+    String lessonId = jTable1.getValueAt(row, 0).toString();
+    List<Lesson> lessons = JsonDatabaseManager.getLessons(courseId);
+
+    for (Lesson l : lessons) {
+        if (l.getLessonId().equals(lessonId)) {
+            JOptionPane.showMessageDialog(this, l.getContent(), l.getTitle(), JOptionPane.INFORMATION_MESSAGE);
+            break;
+        }
+    }
+}
     private void loadTable() {
         List<Lesson> lessons = JsonDatabaseManager.getLessons(courseId);
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
