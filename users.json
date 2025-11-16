@@ -1,8 +1,24 @@
-[{
-    "role": "student",
-    "enrolledCourses": [],
-    "userId": "U1763297425415",
-    "email": "mariam@test.com",
-    "passwordHash": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
-    "username": "mariam"
-}]
+[
+    {
+        "role": "student",
+        "enrolledCourses": [],
+        "userId": "U1763297425415",
+        "email": "mariam@test.com",
+        "passwordHash": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
+        "username": "mariam"
+    },
+    {
+        "role": "Item 1",
+        "userId": "U1763304896513",
+        "email": "mariam@gmail.cok",
+        "passwordHash": "064b1b60fa96dc5a7a49f461f1ceb7a0db34d38405f4fb9dea9241ad408a00f6",
+        "username": "mariam"
+    },
+    {
+        "role": "Item 2",
+        "userId": "U1763305382122",
+        "email": "mariam@",
+        "passwordHash": "58fdb3ab50962f7423a2fe7d3004fcd4699008d66b9cb6e8d661b327965b4687",
+        "username": "mariam"
+    }
+]
