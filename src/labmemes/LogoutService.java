@@ -9,5 +9,8 @@ package labmemes;
  * @author CYBER-TECH
  */
 public class LogoutService {
-    
+    private static User current = null;
+    public static void setCurrent(User u){ current = u; }
+    public static User getCurrent(){ return current; }
+    public static void logout(){ current = null; }
 }
